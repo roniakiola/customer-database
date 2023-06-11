@@ -13,6 +13,7 @@ namespace src.Database
     {
       if (customers.Values.Any(customer => customer.Email == newCustomer.Email))
       {
+        Console.WriteLine("User already exists");
         return false;
       }
       newCustomer.Id = GenerateId();
@@ -26,11 +27,12 @@ namespace src.Database
       {
         Console.WriteLine($"ID: {customer.Id}, Name: {customer.FirstName} {customer.LastName}, Email: {customer.Email}, Address: {customer.Address}");
       }
+      Console.WriteLine("------------------------");
     }
 
-    public void UpdateCustomer(Customer customer, Customer updatedCustomer)
+    public void UpdateCustomer(int id, Customer updatedCustomer)
     {
-      Customer oldCustomer = FindCustomerById(customer.Id);
+      Customer oldCustomer = FindCustomerById(id);
       if (oldCustomer == null)
       {
         Console.WriteLine("Customer not found");
@@ -45,6 +47,17 @@ namespace src.Database
       oldCustomer.LastName = updatedCustomer.LastName;
       oldCustomer.Email = updatedCustomer.Email;
       oldCustomer.Address = updatedCustomer.Address;
+    }
+
+    public void DeleteCustomer(int id)
+    {
+      Customer oldCustomer = FindCustomerById(id);
+      if (oldCustomer == null)
+      {
+        Console.WriteLine("Customer not found");
+        return;
+      }
+      customers.Remove(id);
     }
 
     public Customer FindCustomerById(int id)

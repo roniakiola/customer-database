@@ -13,7 +13,12 @@ Customer falsyUpdate = new Customer("John", "Does", "lisa.nodoes@newmail.com", "
 db.AddCustomer(customer1);
 db.AddCustomer(customer2);
 db.ReadCustomers();
-db.UpdateCustomer(customer1, updatedJohn);
-db.UpdateCustomer(customer2, updatedLisa);
-db.UpdateCustomer(customer1, falsyUpdate);
+db.UpdateCustomer(customer1.Id, updatedJohn);
+db.UpdateCustomer(customer2.Id, updatedLisa);
+db.UpdateCustomer(customer1.Id, falsyUpdate);
+db.ReadCustomers();
+db.DeleteCustomer(customer1.Id);
+db.ReadCustomers();
+db.AddCustomer(customer1);
+db.AddCustomer(customer1);
 db.ReadCustomers();
