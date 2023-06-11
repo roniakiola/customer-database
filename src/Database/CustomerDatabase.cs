@@ -1,3 +1,5 @@
+using src.Shared;
+
 namespace src.Database
 {
   public class CustomerDatabase
@@ -7,17 +9,26 @@ namespace src.Database
     public CustomerDatabase()
     {
       customers = new Dictionary<int, Customer>();
+      try
+      {
+        FileHelper.LoadData(customers);
+      }
+      catch (ExceptionHandler ex)
+      {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+      }
     }
 
     public bool AddCustomer(Customer newCustomer)
     {
       if (customers.Values.Any(customer => customer.Email == newCustomer.Email))
       {
-        Console.WriteLine("User already exists");
+        Console.WriteLine("Email address taken");
         return false;
       }
       newCustomer.Id = GenerateId();
       customers.Add(newCustomer.Id, newCustomer);
+      FileHelper.SaveData(customers);
       return true;
     }
 
@@ -47,6 +58,7 @@ namespace src.Database
       oldCustomer.LastName = updatedCustomer.LastName;
       oldCustomer.Email = updatedCustomer.Email;
       oldCustomer.Address = updatedCustomer.Address;
+      FileHelper.SaveData(customers);
     }
 
     public void DeleteCustomer(int id)
@@ -58,6 +70,7 @@ namespace src.Database
         return;
       }
       customers.Remove(id);
+      FileHelper.SaveData(customers);
     }
 
     public Customer FindCustomerById(int id)
